@@ -1,0 +1,47 @@
+import cv2
+import pytesseract
+from gtts import gTTS
+import os
+import customtkinter as ck
+from PIL import Image
+from tkinter import filedialog
+
+
+# Definindo o local que está a imagem
+imagem = cv2.imread('B:/Programacao/Processamento/Colorida.png')
+
+
+# informando o local do pytesseract
+pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
+
+    #Transformando a imagem em texto
+resultado = pytesseract.image_to_string(image=imagem)
+
+# exibindo o texto
+    
+print(resultado)
+
+# Salvando o texto em um arquivo .txt
+with open("texto_extraido.txt","w", encoding="utf-8") as arquivo_txt:
+    arquivo_txt.write(resultado)
+        
+
+
+# criando o audio
+linguagem = gTTS(resultado,lang="pt")
+
+# salvando o audio em formato mp3
+linguagem.save("audio.mp3")
+
+# exibindo o audio na tela
+print("Deseja ouvir o audio? ")
+ouvir = input()
+
+if ouvir == "Sim":
+    audio = os.system('ffplay -autoexit -nodisp audio.mp3')
+
+else:
+    exit()
+
+
+    
